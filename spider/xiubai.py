@@ -35,30 +35,53 @@ def getXiaoHua(html):
     reg = '<div class="content">\\n*(.*)\\n*</div>'
     #reg = '<div\sclass="content">\\n*(.*?)\\n*</div>'
     myItems = re.findall(reg,html)
+    file_object = open("xiaohua.txt", 'w+')
     for x in myItems:
         x = x.replace("\s","")
-        print x.replace("<br/>","\n")
-        print "\n"
+        x = x.replace("<br/>","\n")+"\n"
+        print x
+        file_object.write(x)
+    file_object.close()
+
+
+def write2file(path,txt):
+    file_object = open(path, 'w+')
+    file_object.write(txt)
+    file_object.close()
     
 def getImg(html):
     reg = '<img src="(.+?\.jpg|.+?\.png)"'
     imglist = re.findall(reg,html)
     x = 0
-    run = 100
-    while run:
-        for imgurl in imglist:
-            print x
-            try: 
-                urllib.urlretrieve(imgurl,'%s.jpg' % x)
-            except Exception,e:
-                print e
-            x+=1
-        run -= 1
-        
-#html = getHTML3("http://www.qiushibaike.com/hot/page/2/?s=4902644")
-#print html
-#getXiaoHua(html)
+    for imgurl in imglist:
+        print x
+        try: 
+            urllib.urlretrieve(imgurl,'%s.jpg' % x)
+        except Exception,e:
+            print e
+        x+=1
+def getXiaoHua2file(fileObj,html):
+    reg = '<div class="content">\\n*(.*)\\n*</div>'
+    myItems = re.findall(reg,html)
+    for x in myItems:
+        x = x.replace("\s","")
+        x = x.replace("<br/>","\n")+"\n"
+        print x
+        fileObj.write(x)
 
-html = getHTML3("http://www.danlu.com/main/index.html")
+fileObj = open("xiaohua.txt", 'w+')
+for i in range(1,10):
+    try:
+        url = "http://www.qiushibaike.com/hot/page/"+str(i)
+        html = getHTML3(url)
+        #print html
+        #getXiaoHua(html)
+        getXiaoHua2file(fileObj,html)
+    except Exception,e:
+        print "--------------------------------------",e
+
+fileObj.close()
+
+#html = getHTML3("http://www.danlu.com/main/index.html")
 #print html
-getImg(html)
+#getImg(html)
