@@ -21,4 +21,3 @@ def getImg(html):
 html = getHtml("http://image.baidu.com/search/index?tn=baiduimage&ps=1&ct=201326592&lm=-1&cl=2&nc=1&ie=utf-8&word=python爬虫")
 
 print getImg(html)
-123456
