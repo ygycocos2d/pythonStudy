@@ -1,0 +1,442 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wb="http://open.weibo.com/wb">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<title>python爬虫框架scrapy实例详解 - Python高级教程- Python进阶|Scrapy教程|Python高级|Python深入 </title>
+<meta name="keywords" content="python,爬虫,框架">
+<meta name="description" content="生成项目scrapy提供一个工具来生成项目，生成的项目中预置了一些文件，用户需要在这些文件中添加自己的代码。打开命令行，执行：scrapy st...">
+<meta property="qc:admins" content="243636137760140764126375" />
+<link href="http://www.pythontab.com/statics/css/default_blue_v3.css?v=20160815" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://www.pythontab.com/statics/js/jquery.min.js"></script>
+<script type="text/javascript" src="http://www.pythontab.com/statics/js/jquery.sgallery.js"></script>
+<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="http://www.pythontab.com/statics/js/backtotop.js?v=001"></script>
+
+</head>
+<body>
+<div class="header">
+    <div class="nav-bar">
+                <ul class="nav-site">
+            <a href="http://www.pythontab.com">
+                <li><span>首页</span></li>
+            </a>
+                        <a href="http://bbs.pythontab.com" target="_blank">
+            <li><span><b>Python论坛</b></span></li>
+            </a>
+                        <a href="http://www.pythontab.com/html/pythonjichu/" target="_blank">
+            <li><span>Python基础教程</span></li>
+            </a>
+                        <a href="http://www.pythontab.com/html/pythonhexinbiancheng/" target="_blank">
+            <li><span>Python高级教程</span></li>
+            </a>
+                        <a href="http://www.pythontab.com/html/pythonweb/" target="_blank">
+            <li><span>Python框架</span></li>
+            </a>
+                        <a href="http://www.pythontab.com/html/hanshu/" target="_blank">
+            <li><span>Python函数</span></li>
+            </a>
+                        <a href="http://www.pythontab.com/html/pythongui/" target="_blank">
+            <li><span>GUI教程</span></li>
+            </a>
+                        <a href="http://www.pythontab.com/html/linuxkaiyuan/" target="_blank">
+            <li><span>Linux教程</span></li>
+            </a>
+                        <a href="http://www.pythontab.com/html/php/" target="_blank">
+            <li><span>PHP教程</span></li>
+            </a>
+                        <a href="http://docs.pythontab.com" target="_blank">
+            <li><span><span style="color:#FFFF00"><b>在线手册大全</b></span></span></li>
+            </a>
+                    </ul>
+                    </div>
+    <div class="nav-second-line">
+        <div class="logo"><a href="http://www.pythontab.com/" title="PythonTab：Python中文开发者社区门户"><img src="http://www.pythontab.com/statics/images/common/logo.png" alt="PythonTab：Python中文开发者社区门户"/></a></div>
+        <div class="search">
+            <form action="http://www.pythontab.com/index.php" method="get" target="_blank">
+                <input type="hidden" name="m" value="search"/>
+                <input type="hidden" name="c" value="index"/>
+                <input type="hidden" name="a" value="init"/>
+                <input type="hidden" name="typeid" value="1" id="typeid"/>
+                <input type="hidden" name="siteid" value="1" id="siteid"/>
+                <input type="submit" value="搜 索" class="button" />
+                <input type="text" class="text" name="q" id="q" value="python"/>
+            </form>
+            <ul class="hot-search">
+                <li>热搜:</li>
+                <li><a href="/index.php?m=search&c=index&a=init&typeid=1&q=scrapy">scrapy</a></li>
+                <li><a href="/index.php?m=search&c=index&a=init&typeid=1&q=urllib2">urllib2</a></li>
+                <li><a href="/index.php?m=search&c=index&a=init&typeid=1&q=yield">yield</a></li>
+                <li><a href="/index.php?m=search&c=index&a=init&typeid=1&q=except">except</a></li>
+            </ul>
+        </div>
+        <!--
+        <div class="qrcode">
+            <img src="/statics/images/common/qrcode_pytab.jpg" height="66" width="66" alt="PythonTab微信公众号"/>
+        </div>
+        -->
+    </div>
+    <div class="bk3"></div>
+</div>
+<div id="head-bottom">
+    <script>
+        document.writeln('<div style="margin-bottom:2px;"><a href="http://www.maiziedu.com/pages/yy1605/python.html?yy=pythontab" target="_blank"><img width="100%" src="/statics/images/coop/maizi04.jpg" /></a></div>');
+    </script>
+</div>
+
+<link href="http://www.pythontab.com/statics/js/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" charset="utf-8" src="http://www.pythontab.com/statics/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="http://www.pythontab.com/statics/js/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+<div class="main">
+	<div class="col-left">
+    	<div class="crumbs"><a href="http://www.pythontab.com">首页</a><span> &gt; </span><a href="http://www.pythontab.com/html/pythonhexinbiancheng/">Python高级教程</a> >  正文</div>
+        <div id="Article">
+        	<h1>python爬虫框架scrapy实例详解</h1>
+			<div style="width:280px;margin: 0 auto;">
+				<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a></div>
+				<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","tieba","douban","tsohu","thx","diandian","sdo","qingbiji","mail","xg","ty","fbook","twi","print"],"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+			</div>
+			<div class="art_info"><span>2013-08-14 09:24:47</span>
+			</div>
+			<div class="summary" >生成项目scrapy提供一个工具来生成项目，生成的项目中预置了一些文件，用户需要在这些文件中添加自己的代码。打开命令行，执行：scrapy st...</div>			<div class="content">
+				<p>生成项目</p><p>scrapy提供一个工具来生成项目，生成的项目中预置了一些文件，用户需要在这些文件中添加自己的代码。</p><p>打开命令行，执行：scrapy startproject tutorial，生成的项目类似下面的结构</p><p>tutorial/</p><p> &nbsp; &nbsp;scrapy.cfg</p><p> &nbsp; &nbsp;tutorial/</p><p> &nbsp; &nbsp; &nbsp; &nbsp;__init__.py</p><p> &nbsp; &nbsp; &nbsp; &nbsp;items.py</p><p> &nbsp; &nbsp; &nbsp; &nbsp;pipelines.py</p><p> &nbsp; &nbsp; &nbsp; &nbsp;settings.py</p><p> &nbsp; &nbsp; &nbsp; &nbsp;spiders/</p><p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;__init__.py</p><p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;...</p><p>scrapy.cfg是项目的配置文件</p><p>用户自己写的spider要放在spiders目录下面，一个spider类似</p><pre class="brush:python;toolbar:false;">from scrapy.spider import BaseSpider
+class DmozSpider(BaseSpider):
+    name = "dmoz"
+    allowed_domains = ["dmoz.org"]
+    start_urls = [
+        "http://www.dmoz.org/Computers/Programming/Languages/Python/Books/",
+        "http://www.dmoz.org/Computers/Programming/Languages/Python/Resources/"
+    ]
+    def parse(self, response):
+        filename = response.url.split("/")[-2]
+        open(filename, 'wb').write(response.body)</pre><p>name属性很重要，不同spider不能使用相同的name</p><p>start_urls是spider抓取网页的起始点，可以包括多个url</p><p>parse方法是spider抓到一个网页以后默认调用的callback，避免使用这个名字来定义自己的方法。</p><p>当spider拿到url的内容以后，会调用parse方法，并且传递一个response参数给它，response包含了抓到的网页的内容，在parse方法里，你可以从抓到的网页里面解析数据。上面的代码只是简单地把网页内容保存到文件。</p><p> </p><p>开始抓取</p><p>你可以打开命令行，进入生成的项目根目录tutorial/，执行 scrapy crawl dmoz， dmoz是spider的name。</p><p> </p><p>解析网页内容</p><p>scrapy提供了方便的办法从网页中解析数据，这需要使用到HtmlXPathSelector</p><pre class="brush:python;toolbar:false;">from scrapy.spider import BaseSpider
+from scrapy.selector import HtmlXPathSelector
+class DmozSpider(BaseSpider):
+    name = "dmoz"
+    allowed_domains = ["dmoz.org"]
+    start_urls = [
+        "http://www.dmoz.org/Computers/Programming/Languages/Python/Books/",
+        "http://www.dmoz.org/Computers/Programming/Languages/Python/Resources/"
+    ]
+    def parse(self, response):
+        hxs = HtmlXPathSelector(response)
+        sites = hxs.select('//ul/li')
+        for site in sites:
+            title = site.select('a/text()').extract()
+            link = site.select('a/@href').extract()
+            desc = site.select('text()').extract()
+            print title, link, desc</pre><p>HtmlXPathSelector使用了Xpath来解析数据</p><p>//ul/li表示选择所有的ul标签下的li标签</p><p>a/@href表示选择所有a标签的href属性</p><p>a/text()表示选择a标签文本</p><p>a[@href=&quot;abc&quot;]表示选择所有href属性是abc的a标签</p><p>我们可以把解析出来的数据保存在一个scrapy可以使用的对象中，然后scrapy可以帮助我们把这些对象保存起来，而不用我们自己把这些数据存到文件中。我们需要在items.py中添加一些类，这些类用来描述我们要保存的数据</p><p>from scrapy.item import Item, Field</p><p>class DmozItem(Item):</p><p> &nbsp; &nbsp;title = Field()</p><p> &nbsp; &nbsp;link = Field()</p><p> &nbsp; &nbsp;desc = Field()</p><p>然后在spider的parse方法中，我们把解析出来的数据保存在DomzItem对象中。</p><pre class="brush:python;toolbar:false;">from scrapy.spider import BaseSpider
+from scrapy.selector import HtmlXPathSelector
+from tutorial.items import DmozItem
+class DmozSpider(BaseSpider):
+   name = "dmoz"
+   allowed_domains = ["dmoz.org"]
+   start_urls = [
+       "http://www.dmoz.org/Computers/Programming/Languages/Python/Books/",
+       "http://www.dmoz.org/Computers/Programming/Languages/Python/Resources/"
+   ]
+   def parse(self, response):
+       hxs = HtmlXPathSelector(response)
+       sites = hxs.select('//ul/li')
+       items = []
+       for site in sites:
+           item = DmozItem()
+           item['title'] = site.select('a/text()').extract()
+           item['link'] = site.select('a/@href').extract()
+           item['desc'] = site.select('text()').extract()
+           items.append(item)
+       return items</pre><p>在命令行执行scrapy的时候，我们可以加两个参数，让scrapy把parse方法返回的items输出到json文件中</p><p>scrapy crawl dmoz -o items.json -t json</p><p>items.json会被放在项目的根目录</p><p> </p><p>让scrapy自动抓取网页上的所有链接</p><p>上面的示例中scrapy只抓取了start_urls里面的两个url的内容，但是通常我们想实现的是scrapy自动发现一个网页上的所有链接，然后再去抓取这些链接的内容。为了实现这一点我们可以在parse方法里面提取我们需要的链接，然后构造一些Request对象，并且把他们返回，scrapy会自动的去抓取这些链接。代码类似：</p><pre class="brush:python;toolbar:false;">class MySpider(BaseSpider):
+    name = 'myspider'
+    start_urls = (
+        'http://example.com/page1',
+        'http://example.com/page2',
+        )
+    def parse(self, response):
+        # collect `item_urls`
+        for item_url in item_urls:
+            yield Request(url=item_url, callback=self.parse_item)
+    def parse_item(self, response):
+        item = MyItem()
+        # populate `item` fields
+        yield Request(url=item_details_url, meta={'item': item},
+            callback=self.parse_details)
+    def parse_details(self, response):
+        item = response.meta['item']
+        # populate more `item` fields
+        return item</pre><p><br /></p><p>parse是默认的callback, 它返回了一个Request列表，scrapy自动的根据这个列表抓取网页，每当抓到一个网页，就会调用parse_item，parse_item也会返回一个列表，scrapy又会根据这个列表去抓网页，并且抓到后调用parse_details</p><p>为了让这样的工作更容易，scrapy提供了另一个spider基类，利用它我们可以方便的实现自动抓取链接. 我们要用到CrawlSpider</p><pre class="brush:python;toolbar:false;">from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
+class MininovaSpider(CrawlSpider):
+    name = 'mininova.org'
+    allowed_domains = ['mininova.org']
+    start_urls = ['http://www.mininova.org/today']
+    rules = [Rule(SgmlLinkExtractor(allow=['/tor/\d+'])),
+             Rule(SgmlLinkExtractor(allow=['/abc/\d+']), 'parse_torrent')]
+    def parse_torrent(self, response):
+        x = HtmlXPathSelector(response)
+        torrent = TorrentItem()
+        torrent['url'] = response.url
+        torrent['name'] = x.select("//h1/text()").extract()
+        torrent['description'] = x.select("//div[@id='description']").extract()
+        torrent['size'] = x.select("//div[@id='info-left']/p[2]/text()[2]").extract()
+        return torrent</pre><p>相比BaseSpider，新的类多了一个rules属性，这个属性是一个列表，它可以包含多个Rule，每个Rule描述了哪些链接需要抓取，哪些不需要。这是Rule类的文档http://doc.scrapy.org/en/latest/topics/spiders.html#scrapy.contrib.spiders.Rule</p><p>这些rule可以有callback，也可以没有，当没有callback的时候，scrapy简单的follow所有这些链接.</p><p>pipelines.py的使用</p><p>在pipelines.py中我们可以添加一些类来过滤掉我们不想要的item，把item保存到数据库。</p><pre class="brush:python;toolbar:false;">from scrapy.exceptions import DropItem
+class FilterWordsPipeline(object):
+    """A pipeline for filtering out items which contain certain words in their
+    description"""
+    # put all words in lowercase
+    words_to_filter = ['politics', 'religion']
+    def process_item(self, item, spider):
+        for word in self.words_to_filter:
+            if word in unicode(item['description']).lower():
+                raise DropItem("Contains forbidden word: %s" % word)
+        else:
+            return item</pre><p>如果item不符合要求，那么就抛一个异常，这个item不会被输出到json文件中。</p><p>要使用pipelines，我们还需要修改settings.py</p><p>添加一行</p><p>ITEM_PIPELINES = [&#39;dirbot.pipelines.FilterWordsPipeline&#39;]</p><p>现在执行scrapy crawl dmoz -o items.json -t json，不符合要求的item就被过滤掉了</p><p><br /></p>			</div>
+			
+			<div id="pages" class="text-c"></div>
+            
+            <div id="recomplus"></div>
+            
+                                          <div class="related">
+                    <h5 class="blue" style="font-size:16px;" >相关文章：</h5>
+                    <ul class="list blue lh24 f14">
+                                                    <li>·<a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1220/9.html" target="_blank" title="python 在互联网应用是如此强大">python 在互联网应用是如此强大</a></li>
+                                                    <li>·<a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1220/12.html" target="_blank" title="sys.argv[] 的使用详解">sys.argv[] 的使用详解</a></li>
+                                                    <li>·<a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1220/21.html" target="_blank" title="ImportError: No module named setuptools 解决方法">ImportError: No module named setuptools 解决方法</a></li>
+                                                    <li>·<a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1220/22.html" target="_blank" title="python下redis安装和使用">python下redis安装和使用</a></li>
+                                                    <li>·<a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1221/34.html" target="_blank" title="python链接mysql数据库详解">python链接mysql数据库详解</a></li>
+                                                    <li>·<a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1221/35.html" target="_blank" title="python+ mysql存储二进制流的方式">python+ mysql存储二进制流的方式</a></li>
+                                            </ul>
+                </div>
+                                    
+            <p style="margin:10px 0">
+			            <strong style="font-size:16px">相关词搜索：</strong><a href="http://www.pythontab.com/index.php?m=content&c=tag&catid=12&tag=python" class="blue">python</a> 	<a href="http://www.pythontab.com/index.php?m=content&c=tag&catid=12&tag=%E7%88%AC%E8%99%AB" class="blue">爬虫</a> 	<a href="http://www.pythontab.com/index.php?m=content&c=tag&catid=12&tag=%E6%A1%86%E6%9E%B6" class="blue">框架</a> 	                        </p>
+            <p class="f14 blue">
+                <strong>上一篇：</strong><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0813/540.html">Python 如何将一变量做为函数名？</a><br />
+                <strong>下一篇：</strong><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0816/542.html">解决ImportError: libmysqlclient_r.so.16: cannot open shared object file</a>
+            </p>
+            
+            <div id="bbs_tips" >如对本文内容有疑问，或想进一步交流学习，欢迎通过以下方式：<br>
+                <p>1. <a href="http://bbs.pythontab.com" target="_blank" rel="nofollow">Python论坛</a></p>
+                <p>2. python技术互助群(请不要加多个群):</p>
+                <p>群④ ：385100854 </p>
+                <p>群③ ：318130924 </p>
+                <p>群② ：333646237 </p>
+                <p>群① ：87464755  </p>
+                <p>3. 关注PythonTab微信: Pythontab ，公众号：Pythontab中文网 </p>
+			</div>
+            <div id="notice_tips">
+				版权声明：本站文章除非注明，均为原创内容，如需转载请务必注明出处，违者本站保留追究其法律责任之权利。
+			</div>
+          
+          <div class="bk15"></div>
+	</div>
+
+      <div class="bk10"></div>
+      <!--start -->
+<div class="ds-thread" data-category="12" data-thread-key="content_12-541-1" data-title="python爬虫框架scrapy实例详解"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pythontab"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = '/statics/js/duoshuo.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
+
+  </div>
+    <div class="col-auto">
+        <div class="bk10"></div>
+        <div class="box-v3">
+            <h5 class="box-head"><span class="mod_title">频道总排行</span></h5>
+			<div class="content">
+				<ul class="list">
+															<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1220/22.html" target="_blank" title="python下redis安装和使用">python下redis安装和使用</a></li>
+											<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1220/21.html" target="_blank" title="ImportError: No module named setuptools 解决方法">ImportError: No module named setuptools 解决方法</a></li>
+											<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1220/9.html" target="_blank" title="python 在互联网应用是如此强大">python 在互联网应用是如此强大</a></li>
+											<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0314/298.html" target="_blank" title="python读取和生成excel文件">python读取和生成excel文件</a></li>
+											<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0403/333.html" target="_blank" title="python多线程编程2—线程的创建、启动、挂起和退出">python多线程编程2—线程的创建、启动、挂起和退出</a></li>
+											<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0131/194.html" target="_blank" title="分别用python2和python3伪装浏览器爬取网页内容">分别用python2和python3伪装浏览器爬取网页内容</a></li>
+											<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0120/149.html" target="_blank" title="python批量抓取美女图片">python批量抓取美女图片</a></li>
+											<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0126/174.html" target="_blank" title="Python简单两步实现天气爬虫采集器">Python简单两步实现天气爬虫采集器</a></li>
+											<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0510/392.html" target="_blank" title="成人网站性能提升 20 倍之经验谈 [Python]">成人网站性能提升 20 倍之经验谈 [Python]</a></li>
+											<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0530/422.html" target="_blank" title="python抓取google搜索结果">python抓取google搜索结果</a></li>
+													</ul>
+			</div>
+        </div>
+		<div class="bk20"></div>
+		<div class="box-v3" >
+			<h5 class="box-head"><span class="mod_title">频道本月排行</span></h5>
+			<div class="content">
+				<ul class="list">
+															<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0403/333.html" target="_blank" title="python多线程编程2—线程的创建、启动、挂起和退出">python多线程编程2—线程的创建、启动、挂起和退出</a></li>
+										<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0314/298.html" target="_blank" title="python读取和生成excel文件">python读取和生成excel文件</a></li>
+										<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0814/541.html" target="_blank" title="python爬虫框架scrapy实例详解">python爬虫框架scrapy实例详解</a></li>
+										<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0120/149.html" target="_blank" title="python批量抓取美女图片">python批量抓取美女图片</a></li>
+										<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0131/194.html" target="_blank" title="分别用python2和python3伪装浏览器爬取网页内容">分别用python2和python3伪装浏览器爬取网页内容</a></li>
+										<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0510/392.html" target="_blank" title="成人网站性能提升 20 倍之经验谈 [Python]">成人网站性能提升 20 倍之经验谈 [Python]</a></li>
+										<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0830/551.html" target="_blank" title="一步步来用C语言来写python扩展">一步步来用C语言来写python扩展</a></li>
+										<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0823/547.html" target="_blank" title="用python实现的抓取腾讯视频所有电影的爬虫">用python实现的抓取腾讯视频所有电影的爬虫</a></li>
+										<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0927/573.html" target="_blank" title="用python 装饰器打log">用python 装饰器打log</a></li>
+										<li><a href="http://www.pythontab.com/html/2013/pythonhexinbiancheng_0218/232.html" target="_blank" title=" Python多线程异步任务队列（实例）"> Python多线程异步任务队列（实例）</a></li>
+														</ul>
+			</div>
+		</div>
+		<div class="bk20"></div>
+
+		<div class="box-v3" >
+			<h5 class="box-head"><span class="mod_title">最新文章</span></h5>
+			<div class="content">
+				<ul class="list">
+															<li><a href="http://www.pythontab.com/html/2016/pythonhexinbiancheng_0816/1059.html" target="_blank" title="深入分析python的and or 返回值">深入分析python的and or 返回值</a></li>
+										<li><a href="http://www.pythontab.com/html/2016/hanshu_0808/1058.html" target="_blank" title="python函数每日一讲 - id函数">python函数每日一讲 - id函数</a></li>
+										<li><a href="http://www.pythontab.com/html/2016/pythonhexinbiancheng_0802/1057.html" target="_blank" title="详解Python的*args和 **kwargs">详解Python的*args和 **kwargs</a></li>
+										<li><a href="http://www.pythontab.com/index.php?m=content&c=index&a=show&catid=25&id=1056" target="_blank" title="今日头条架构演进之路 — 高压下的架构演进">今日头条架构演进之路 — 高压下的架构演进</a></li>
+										<li><a href="http://www.pythontab.com/html/2016/linuxkaiyuan_0727/1055.html" target="_blank" title="bash中常见特殊字符使用大全">bash中常见特殊字符使用大全</a></li>
+										<li><a href="http://www.pythontab.com/html/2016/pythonhexinbiancheng_0724/1054.html" target="_blank" title="深入理解Python生成器（Generator）">深入理解Python生成器（Generator）</a></li>
+										<li><a href="http://www.pythontab.com/html/2016/pythonhexinbiancheng_0724/1053.html" target="_blank" title="Python进程、线程、协程详解">Python进程、线程、协程详解</a></li>
+										<li><a href="http://www.pythontab.com/html/2016/pythonjichu_0723/1052.html" target="_blank" title="python中如何判断list中是否包含某个元素">python中如何判断list中是否包含某个元素</a></li>
+										<li><a href="http://www.pythontab.com/html/2016/pythonjichu_0723/1051.html" target="_blank" title="Python实现代码行数统计工具">Python实现代码行数统计工具</a></li>
+										<li><a href="http://www.pythontab.com/html/2016/mysql_0723/1050.html" target="_blank" title=" Mysql中 int(10)和int(11)的区别"> Mysql中 int(10)和int(11)的区别</a></li>
+										<li><a href="http://www.pythontab.com/html/2016/pythonjichu_0722/1049.html" target="_blank" title="python强大的字符串格式化函数 - format">python强大的字符串格式化函数 - format</a></li>
+										<li><a href="http://www.pythontab.com/html/2016/pythonhexinbiancheng_0722/1048.html" target="_blank" title="Python如何嵌入C/C++进行开发">Python如何嵌入C/C++进行开发</a></li>
+														</ul>
+			</div>
+		</div>
+						<div class="bk20"></div>
+		<div class="box-v3" >
+			<h5 class="box-head"><span class="mod_title">相关文章</span></h5>
+			<ul class="content">
+				<ul class="list">
+									<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1220/9.html" target="_blank" title="python 在互联网应用是如此强大">python 在互联网应用是如此强大</a></li>
+									<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1220/12.html" target="_blank" title="sys.argv[] 的使用详解">sys.argv[] 的使用详解</a></li>
+									<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1220/21.html" target="_blank" title="ImportError: No module named setuptools 解决方法">ImportError: No module named setuptools 解决方法</a></li>
+									<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1220/22.html" target="_blank" title="python下redis安装和使用">python下redis安装和使用</a></li>
+									<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1221/34.html" target="_blank" title="python链接mysql数据库详解">python链接mysql数据库详解</a></li>
+									<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1221/35.html" target="_blank" title="python+ mysql存储二进制流的方式">python+ mysql存储二进制流的方式</a></li>
+									<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1222/43.html" target="_blank" title="得到一张图片或logo的主要颜色（颜色趋向）python版">得到一张图片或logo的主要颜色（颜色趋向）python版</a></li>
+									<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1225/56.html" target="_blank" title="python的子子孙孙（变种编程语言）">python的子子孙孙（变种编程语言）</a></li>
+									<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1227/68.html" target="_blank" title="Python+OpenCV人脸识别技术详解">Python+OpenCV人脸识别技术详解</a></li>
+									<li><a href="http://www.pythontab.com/html/2012/pythonhexinbiancheng_1228/70.html" target="_blank" title="python闭包详解（实例）">python闭包详解（实例）</a></li>
+								</ul>
+			</ul>
+		</div>
+				    </div>
+</div>
+
+<script type="text/javascript">
+<!--
+function show_ajax(obj) {
+    var keywords = $(obj).text();
+    var offset = $(obj).offset();
+    var jsonitem = '';
+    $.getJSON("http://www.pythontab.com/index.php?m=content&c=index&a=json_list&type=keyword&modelid=1&id=541&keywords="+encodeURIComponent(keywords),
+            function(data){
+            var j = 1;
+            var string = "<div class='point key-float'><div style='position:relative'><div class='arro'></div>";
+            string += "<a href='JavaScript:;' onclick='$(this).parent().parent().remove();' hidefocus='true' class='close'><span>关闭</span></a><div class='contents f12'>";
+            if(data!=0) {
+              $.each(data, function(i,item){
+                j = i+1;
+                jsonitem += "<a href='"+item.url+"' target='_blank'>"+j+"、"+item.title+"</a><BR>";
+                
+              });
+                string += jsonitem;
+            } else {
+                string += '没有找到相关的信息！';
+            }
+                string += "</div><span class='o1'></span><span class='o2'></span><span class='o3'></span><span class='o4'></span></div></div>";		
+                $(obj).after(string);
+                $('.key-float').mouseover(
+                    function (){
+                        $(this).siblings().css({"z-index":0})
+                        $(this).css({"z-index":1001});
+                    }
+                )
+                $(obj).next().css({ "left": +offset.left-100, "top": +offset.top+$(obj).height()+12});
+            });
+}
+$(function(){
+  $('#Article .content img').LoadImage(true, 660, 660,'http://www.pythontab.com/statics/images/s_nopic.gif');    
+})
+//-->
+$(function(){var a=function(){$(".syntaxhighlighter").each(function(){var a=$(this),b=a.find("td.gutter"),c=a.find("td.code");b.children(".line").each(function(a){var b=$(this),d=c.find(".line:nth-child("+(a+1)+")"),e=d.height()||0;e=e?e+="px":"auto",b.attr("style","height: "+e+" !important")})})},b=function(){0===$(".syntaxhighlighter").length?setTimeout(b,10):a()};b()}),SyntaxHighlighter.config.clipboardSwf="http://www.pythontab.com/statics/js/ueditor/third-party/SyntaxHighlighter/clipboard.swf",SyntaxHighlighter.highlight();
+</script>
+
+<div class="footer">
+    <div class="footer-content">
+        <div class="footer-left">
+                        <ul>
+                            <li><a rel="nofollow" href="http://www.pythontab.com/html/about/aboutus/" target="_blank" >关于我们</a></li>
+                            <li><a rel="nofollow" href="http://www.pythontab.com/html/about/contactus/" target="_blank" >联系方式</a></li>
+                            <li><a rel="nofollow" href="http://www.pythontab.com/index.php?m=content&c=index&a=lists&catid=4" target="_blank" >版权声明</a></li>
+                            <li><a rel="nofollow" href="http://www.pythontab.com/tools/pytabcoder/" target="_blank" >测试工具</a></li>
+                <li><a rel="nofollow" href="http://www.pythontab.com/pytools/" target="_blank" >资源合集</a></li>
+            </ul>
+                    </div>
+        <ul class="cats">
+            <li><a href="http://www.pythontab.com/html/pythonjichu/" target="_blank" >Python入门</a></li>
+            <li><a href="http://www.pythontab.com/html/pythonhexinbiancheng/" target="_blank" >Python进阶</a></li>
+            <li><a href="http://www.pythontab.com/html/pythonweb/" target="_blank" >Python框架</a></li>
+            <li><a href="http://www.pythontab.com/html/pythongui/" target="_blank" >Python GUI</a></li>
+            <li><a href="http://www.pythontab.com/html/hanshu/" target="_blank" >Python函数</a></li>
+        </ul>
+
+        <ul class="cats">
+            <li><a href="http://docs.pythontab.com/" target="_blank" >在线手册</a></li>
+            <li><a href="http://bbs.pythontab.com/blueelchina" target="_blank" >Python论坛</a></li>
+            <li><a href="http://pythontab.com/html/mysql" target="_blank" >MySQL教程</a></li>
+            <li><a href="http://www.pythontab.com/html/linuxkaiyuan/" target="_blank" >Linux教程</a></li>
+            <li><a href="http://pythontab.com/html/php" target="_blank" >PHP教程</a></li>
+        </ul>
+
+        <div class="copy">
+            <p>联系方式: </p>
+            <p><a rel="nofollow" href="http://weibo.com/blueelchina" target="_blank" >官方微博</a></p>
+            <p>QQ : 20769164</p>
+            <p>Email : market@pythontab.com</p>
+            <p>Copyright &copy; 2012 - 2016 PYTHONTAB.COM.</p>
+        </div>
+
+        <div class="footer-weixin">
+            <p >官方微信</p>
+            <img src="/statics/images/common/py_weixin_qr_258.jpg" height="100" />
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+
+    $('.logo a').click(function (){
+        _hmt.push(['_trackEvent', 'logo', 'click'])
+    });
+    $('.search .bd .button').click(function (){
+        _hmt.push(['_trackEvent', 'search_btn', 'click'])
+    });
+
+    function trackme(trackName){
+        _hmt.push(['_trackEvent', 'track-' + trackName, 'click']);
+        _czc.push(['_trackEvent', 'track-' + trackName, 'click']);
+    }
+
+</script>
+
+<script type="text/javascript">
+$(function(){
+	$(".picbig").each(function(i){
+		var cur = $(this).find('.img-wrap').eq(0);
+		var w = cur.width();
+		var h = cur.height();
+	   $(this).find('.img-wrap img').LoadImage(true, w, h,'http://www.pythontab.com/statics/images/msg_img/loading.gif');
+	});
+})
+</script>
+</body>
+<html>
